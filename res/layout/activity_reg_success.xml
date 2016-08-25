@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@color/gray01"
+              android:layout_height="match_parent">
+    <include
+            android:id="@+id/home_item_photo"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="60dp"
+            layout="@layout/top_linear"/>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_centerHorizontal="true"
+                   android:layout_marginTop="25dp"
+                   android:id="@+id/reg_success_up"
+                   android:src="@drawable/reg_success_up"
+                   android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_marginTop="15dp"
+                  android:text="验证成功"
+                  android:layout_centerHorizontal="true"
+                  android:textColor="@color/btn_logout_normal"
+                  android:textSize="14sp"
+                  android:layout_below="@+id/reg_success_up"
+                  android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_centerHorizontal="true"
+                   android:layout_marginTop="15dp"
+                   android:id="@+id/icon_weixin"
+                   android:src="@drawable/icon_weixin"
+                   android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_marginTop="15dp"
+                  android:text="点击微信登录"
+                  android:layout_centerHorizontal="true"
+                  android:textColor="@color/textColor"
+                  android:textSize="15sp"
+                  android:layout_below="@+id/icon_weixin"
+                  android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</LinearLayout>

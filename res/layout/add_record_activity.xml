@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:id="@+id/main"
+              android:background="@color/mm_main_bg"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <include
+            android:id="@+id/home_item_photo"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="60dp"
+            layout="@layout/top_linear"/>
+
+    <com.lbins.SharePic.widget.ReboundScrollView android:layout_width="match_parent"
+                                               android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="vertical"
+                      android:layout_height="match_parent">
+
+            <EditText
+                    android:id="@+id/mm_msg_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="120dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/et_bule_bg"
+                    android:textSize="16sp"
+                    android:hint="请输入您要发布的新鲜事儿"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:textColor="#ff000000"/>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_height="wrap_content">
+
+                <com.lbins.SharePic.widget.NoScrollGridView
+                        android:id="@+id/publish_moopd_gridview_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:listSelector="@drawable/selector_pressed_gray"
+                        android:horizontalSpacing="5dip"
+                        android:numColumns="4"
+                        android:padding="8dp"
+                        android:verticalSpacing="5dip"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </com.lbins.SharePic.widget.ReboundScrollView>
+
+</LinearLayout>
