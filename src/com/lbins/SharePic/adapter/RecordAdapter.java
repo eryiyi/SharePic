@@ -12,6 +12,7 @@ import android.widget.*;
 
 import com.lbins.SharePic.R;
 import com.lbins.SharePic.SharePicApplication;
+import com.lbins.SharePic.base.InternetURL;
 import com.lbins.SharePic.entity.ArticleObj;
 import com.lbins.SharePic.ui.GalleryUrlActivity;
 import com.lbins.SharePic.ui.RegActivity;
@@ -97,7 +98,7 @@ public class RecordAdapter extends BaseAdapter {
 
         final ArticleObj cell = records.get(position);//获得元素
         if (cell != null) {
-            imageLoader.displayImage(cell.getPicture(), holder.item_cover, SharePicApplication.txOptions, animateFirstListener);
+            imageLoader.displayImage(InternetURL.INTERNAL_PIC+cell.getCover(), holder.item_cover, SharePicApplication.txOptions, animateFirstListener);
 
             holder.item_name.setText(cell.getNick_name());
             holder.item_content.setText(cell.getTitle());
@@ -141,7 +142,7 @@ public class RecordAdapter extends BaseAdapter {
                     case 1:
                     {
                         holder.img_one.setVisibility(View.VISIBLE);
-                        imageLoader.displayImage(listPics.get(0), holder.img_one, SharePicApplication.options, animateFirstListener);
+                        imageLoader.displayImage(InternetURL.INTERNAL_PIC+listPics.get(0), holder.img_one, SharePicApplication.options, animateFirstListener);
                     }
                         break;
                     case 2:

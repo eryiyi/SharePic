@@ -1,5 +1,7 @@
 package com.lbins.SharePic.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by zhl on 2016/8/25.
  *  "message_id": "33",
@@ -28,7 +30,7 @@ package com.lbins.SharePic.entity;
  "picture9": "",
  "cat_name": "媒体"
  */
-public class ArticleObj {
+public class ArticleObj implements Serializable{
     private String message_id;
     private String nick_name;
     private String user_name;

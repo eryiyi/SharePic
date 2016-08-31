@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.lbins.SharePic.R;
 import com.lbins.SharePic.SharePicApplication;
+import com.lbins.SharePic.base.InternetURL;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class ImageGridViewAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
         // 将图片显示任务增加到执行池，图片将被显示到ImageView当轮到此ImageView
-        String img_url = imageUrls.get(position);
+        String img_url = InternetURL.INTERNAL_PIC + imageUrls.get(position);
         imageLoader.displayImage(img_url, imageView, SharePicApplication.options);
         return imageView;
     }

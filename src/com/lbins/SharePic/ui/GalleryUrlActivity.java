@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.lbins.SharePic.R;
 import com.lbins.SharePic.base.BaseActivity;
+import com.lbins.SharePic.base.InternetURL;
 import com.lbins.SharePic.gallery.BasePagerAdapter;
 import com.lbins.SharePic.gallery.GalleryViewPager;
 import com.lbins.SharePic.gallery.UrlPagerAdapter;
@@ -62,9 +63,9 @@ public class GalleryUrlActivity extends BaseActivity {
 
     public void download(View view) {
         int i = mViewPager.getCurrentItem();
-        getLxThread().execute(new PicUtil(imageUrls[i]));
-        PicUtil.downloadImage(imageUrls[i]);
-        String fileName = PicUtil.getImagePath(imageUrls[i]);
+        getLxThread().execute(new PicUtil(InternetURL.INTERNAL_PIC+imageUrls[i]));
+        PicUtil.downloadImage(InternetURL.INTERNAL_PIC+imageUrls[i]);
+        String fileName = PicUtil.getImagePath(InternetURL.INTERNAL_PIC+imageUrls[i]);
         Toast.makeText(this, "已保存至" + fileName, Toast.LENGTH_SHORT).show();
     }
 }

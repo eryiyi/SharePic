@@ -20,6 +20,7 @@ import com.lbins.SharePic.entity.ArticleObj;
 import com.lbins.SharePic.library.PullToRefreshBase;
 import com.lbins.SharePic.library.PullToRefreshListView;
 import com.lbins.SharePic.ui.AddRecordActivity;
+import com.lbins.SharePic.ui.DetailPageActivity;
 import com.lbins.SharePic.util.Constants;
 import com.lbins.SharePic.util.HttpUtils;
 import com.lbins.SharePic.util.StringUtil;
@@ -108,24 +109,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,O
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //判断是否有网
-                try {
-                    isMobileNet = HttpUtils.isMobileDataEnable(MainActivity.this);
-                    isWifiNet = HttpUtils.isWifiDataEnable(MainActivity.this);
-                    if (!isMobileNet && !isWifiNet) {
-                        Toast.makeText(MainActivity.this, "请检查网络链接", Toast.LENGTH_SHORT).show();
-                    } else {
-//                        Record record = recordList.get(position - 1);
-//                        if (!record.getRecordType().equals("1")) {
-//                            Intent detail = new Intent(getActivity(), DetailPageAcitvity.class);
-//                            detail.putExtra(Constants.INFO, record);
-//                            startActivity(detail);
-//                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+//                //判断是否有网
+//                try {
+//                    isMobileNet = HttpUtils.isMobileDataEnable(MainActivity.this);
+//                    isWifiNet = HttpUtils.isWifiDataEnable(MainActivity.this);
+//                    if (!isMobileNet && !isWifiNet) {
+//                        Toast.makeText(MainActivity.this, "请检查网络链接", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        ArticleObj articleObj = lists.get(position);
+//                        Intent detail = new Intent(MainActivity.this, DetailPageActivity.class);
+//                        detail.putExtra(Constants.INFO, articleObj);
+//                        startActivity(detail);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
             }
         });
@@ -180,166 +178,70 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,O
         }
     }
 
-//    public void initData() {
-//        StringRequest request = new StringRequest(
-//                Request.Method.POST,
-//                InternetURL.GET_ARTICLE_URL,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String s) {
-//                        if (StringUtil.isJson(s)) {
-//                            RecordDATA data = getGson().fromJson(s, RecordDATA.class);
-//                            if (data.getCode() == 200) {
-//                                if (IS_REFRESH) {
-//                                    lists.clear();
+    public void initData() {
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                InternetURL.GET_ARTICLE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        if (StringUtil.isJson(s)) {
+                            RecordDATA data = getGson().fromJson(s, RecordDATA.class);
+                            if (Integer.parseInt(data.getCode()) == 200) {
+                                if (IS_REFRESH) {
+                                    lists.clear();
+                                }
+                                lists.addAll(data.getData());
+                                home_lstv.onRefreshComplete();
+                                adapter.notifyDataSetChanged();
+                                //处理数据，需要的话保存到数据库
+//                                if (data != null && data.getData() != null) {
+//                                    DBHelper dbHelper = DBHelper.getInstance(getActivity());
+//                                    for (Record record1 : data.getData()) {
+//                                        if (dbHelper.getRecordById(record1.getRecordId()) == null) {
+//                                            DBHelper.getInstance(getActivity()).saveRecord(record1);
+//                                        }
+//                                    }
 //                                }
-//                                lists.addAll(data.getData());
-//                                home_lstv.onRefreshComplete();
-//                                adapter.notifyDataSetChanged();
-//                                //处理数据，需要的话保存到数据库
-////                                if (data != null && data.getData() != null) {
-////                                    DBHelper dbHelper = DBHelper.getInstance(getActivity());
-////                                    for (Record record1 : data.getData()) {
-////                                        if (dbHelper.getRecordById(record1.getRecordId()) == null) {
-////                                            DBHelper.getInstance(getActivity()).saveRecord(record1);
-////                                        }
-////                                    }
-////                                }
-//                            } else {
-//                                Toast.makeText(MainActivity.this, R.string.get_data_error, Toast.LENGTH_SHORT).show();
-//                            }
-//                        } else {
-//                            Toast.makeText(MainActivity.this, R.string.get_data_error, Toast.LENGTH_SHORT).show();
-//                        }
-//                        if(progressDialog != null){
-//                            progressDialog.dismiss();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError volleyError) {
-//                        if(progressDialog != null){
-//                            progressDialog.dismiss();
-//                        }
-//                        Toast.makeText(MainActivity.this, R.string.get_data_error, Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        ) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<String, String>();
-//                return params;
-//            }
-//
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("Content-Type", "application/x-www-form-urlencoded");
-//                return params;
-//            }
-//        };
-//
-//        request.setRetryPolicy(new DefaultRetryPolicy(10000,
-//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        getRequestQueue().add(request);
-//    }
+                            } else {
+                                Toast.makeText(MainActivity.this, R.string.get_data_error, Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, R.string.get_data_error, Toast.LENGTH_SHORT).show();
+                        }
+                        if(progressDialog != null){
+                            progressDialog.dismiss();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        if(progressDialog != null){
+                            progressDialog.dismiss();
+                        }
+                        Toast.makeText(MainActivity.this, R.string.get_data_error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
 
-    void initData(){
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "媒体"
-        ));
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "媒体"
-        ));
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "", "", "",
-                "", "", "媒体"
-        ));
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "",
-                "", "", "媒体"
-        ));
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "", "", "",
-                "", "", "",
-                "", "", "媒体"
-        ));
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "", "",
-                "", "", "",
-                "", "", "媒体"
-        ));
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "",
-                "", "", "",
-                "", "", "媒体"
-        ));
-        lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "", "", "",
-                "", "", "媒体"
-        )); lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "", "媒体"
-        )); lists.add(new ArticleObj("message_id", "晚霞落日", "晚霞落日",
-                "1", "最专业的海外房产移民展", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "内容",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",  "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "0", "0", "0",
-                "0", "2016-01-14 10:14:01", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg",
-                "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "http://wshare.apptech.space/Uploads/2016-02-24/56cd296d34dcb.jpg", "媒体"
-        ));
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
 
-
-        adapter.notifyDataSetChanged();
-        if(progressDialog != null){
-            progressDialog.dismiss();
-        }
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        getRequestQueue().add(request);
     }
+
 }

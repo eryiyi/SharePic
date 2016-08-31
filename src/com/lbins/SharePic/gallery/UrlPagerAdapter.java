@@ -19,6 +19,7 @@ package com.lbins.SharePic.gallery;
 
 import android.content.Context;
 import android.view.ViewGroup;
+import com.lbins.SharePic.base.InternetURL;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class UrlPagerAdapter extends BasePagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup collection, final int position) {
         final UrlTouchImageView iv = new UrlTouchImageView(mContext);
-        iv.setUrl(mResources.get(position));
+        iv.setUrl(InternetURL.INTERNAL_PIC + mResources.get(position));
         iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         collection.addView(iv, 0);
         return iv;
