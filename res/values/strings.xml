@@ -15,6 +15,11 @@
     <string name="compleat">完成(</string>
     <string name="compleat_1">)</string>
     <string name="only_select_nine">只能选择9张图片</string>
+    <string name="reg_error">"注册失败"</string>
+    <string name="daojishi_one">"倒计时"</string>
+    <string name="daojishi_two">"秒"</string>
+    <string name="daojishi_three">"重新获取"</string>
+    <string name="please_wait">"请稍后"</string>
 
 
 </resources>

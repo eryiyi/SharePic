@@ -25,6 +25,13 @@ public class InternetURL {
     //文章详细
     public static final String DETAIL_ARTICLE_URL = INTERNAL + "article/detail";
 
+    //获得验证码
+    public static final String SEND_CODE_URL = INTERNAL + "user/sendCode";
+    //校验验证码
+    public static final String VER_CODE_URL = INTERNAL + "user/verifyCode";
+    //图片上传
+    public static final String UPLOAD_FILE_URL = INTERNAL + "article/uploadFile";
+
 
 //    http://wshare.apptech.space/api/Uploads/2016-02-24/56cd2be32232c.jpg
 }
