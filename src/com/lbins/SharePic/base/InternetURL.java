@@ -5,8 +5,8 @@ public class InternetURL {
 
     public static final String INTERNAL_PIC = "http://wshare.apptech.space";
 
-    public static final String WEIXIN_APPID = "wx4da8b73a07135cd1";
-    public static final String WEIXIN_SECRET = "a393cc92c26041c3cdad965a931ba537";
+    public static final String WEIXIN_APPID = "wxa5b2c67286faf2c6";
+    public static final String WEIXIN_SECRET = "1ce50d86bf7678027d18e734ca71a4e1";
     public static final String WX_API_KEY="a393cc92c26041c3cdad965a931ba537";
 
     public static final String WEIXIN_partnerId = "1368485802";
@@ -33,5 +33,5 @@ public class InternetURL {
     public static final String UPLOAD_FILE_URL = INTERNAL + "article/uploadFile";
 
 
-//    http://wshare.apptech.space/api/Uploads/2016-02-24/56cd2be32232c.jpg
+//    http://wshare.apptech.space/api/user/sendCode?user_name=13346299752
 }

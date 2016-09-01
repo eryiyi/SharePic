@@ -64,7 +64,10 @@ public class RegActivity extends BaseActivity implements View.OnClickListener {
                     showMsg(RegActivity.this, "请输入手机号");
                     return;
                 }
-
+                if(mobile.getText().toString().length() != 11){
+                    showMsg(RegActivity.this, "请输入正确的手机格式");
+                    return;
+                }
                 if (StringUtil.isNullOrEmpty(code.getText().toString())) {
                     showMsg(RegActivity.this, "请输入验证码");
                     return;
@@ -85,9 +88,14 @@ public class RegActivity extends BaseActivity implements View.OnClickListener {
             }
                 break;
             case R.id.btn_code:
-                btn_code.setClickable(false);//不可点击
-                MyTimer myTimer = new MyTimer(60000, 1000);
-                myTimer.start();
+                if (StringUtil.isNullOrEmpty(mobile.getText().toString())) {
+                    showMsg(RegActivity.this, "请输入手机号");
+                    return;
+                }
+                if(mobile.getText().toString().length() != 11){
+                    showMsg(RegActivity.this, "请输入正确的手机格式");
+                    return;
+                }
 
                 progressShow = true;
                 pd = new ProgressDialog(RegActivity.this);
@@ -116,9 +124,12 @@ public class RegActivity extends BaseActivity implements View.OnClickListener {
                         if (StringUtil.isJson(s)) {
                             try {
                                 JSONObject jo = new JSONObject(s);
-                                String code = jo.getString("code");
-                                if (Integer.parseInt(code) == 200) {
+                                String status = jo.getString("status");
+                                if ("success".equals(status)) {
                                     Toast.makeText(RegActivity.this, "发送验证码成功，请注意查收", Toast.LENGTH_SHORT).show();
+                                    btn_code.setClickable(false);//不可点击
+                                    MyTimer myTimer = new MyTimer(60000, 1000);
+                                    myTimer.start();
                                 } else {
                                     Toast.makeText(RegActivity.this, jo.getString("alert"), Toast.LENGTH_SHORT).show();
                                 }
@@ -188,10 +199,11 @@ public class RegActivity extends BaseActivity implements View.OnClickListener {
                         if (StringUtil.isJson(s)) {
                             try {
                                 JSONObject jo = new JSONObject(s);
-                                String code = jo.getString("code");
-                                if (Integer.parseInt(code) == 200) {
+                                String status = jo.getString("status");
+                                if ("success".equals(status)) {
                                     Toast.makeText(RegActivity.this, "验证成功，请使用微信登录", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(RegActivity.this, RegSuccessActivity.class);
+                                    intent.putExtra("mobile", mobile.getText().toString());
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(RegActivity.this, jo.getString("alert"), Toast.LENGTH_SHORT).show();
